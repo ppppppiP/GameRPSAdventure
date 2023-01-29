@@ -1,147 +1,80 @@
-﻿Console.WriteLine("В игре можно использовать кнопки клавиатуры");
-Console.WriteLine("II - посмотреть инвентарь");
-Console.WriteLine("Выберете персонажа, которым вы хотите играть");
-Console.WriteLine("Рыцарь/Маг Q/E");
+﻿using Microsoft.VisualBasic;
+using RpgLogicProject;
 
-Personage mag = new Magitian();
-Personage knight = new Knight();
-if (Console.ReadKey().Key == ConsoleKey.Q)
-{
-    Console.WriteLine("Вы выбрали рыцаря!, удачного вам путешествия");
-    if (Console.ReadKey().Key == ConsoleKey.I)
-    {
-        Console.WriteLine();
-        knight.Inventary();
-    }
+//Инициализировать классы. И начать битву 
+Console.WriteLine("Добро пожалавать на арену герой!");
+Console.WriteLine("Представься перед боем");
+Console.Write("Меня зовут:");
+string name=Convert.ToString(Console.ReadLine());
+var Hero = new Hero(name, 1, 100);
+Console.WriteLine("------------------------------------");
 
-}
 
-else if (Console.ReadKey().Key == ConsoleKey.E)
-{
-    Console.WriteLine("Вы выбрали рыцаря!, удачного вам путешествия");
-
-}
+BackPack bac = new BackPack(10);
+bac.Add(new Item("!23",32,23));
 
 
 
-
-
-class Personage
-{
-    public virtual int Helth( int helth) {
-        helth = 0;
-        return helth;
-    }
-   
-    public virtual int Mana(int mana) {
-        mana = 0;
-        return mana;
-    }
-    public virtual int Money(int money)
-    {
-        money = 0;
-        return money;
-    }
-    public virtual void Damage()
-    {
-
-    }
-    public virtual void Inventary() 
-    {
-         
-    }
-
-}
-class Knight: Personage
-{
-    public override int Helth(int helth)
-    {
-        helth = 150;
-        return helth;
-    }
-    public override int Mana(int mana)
-    {
-        mana = 0;
-        return mana;
-    }
-    public override int Money(int money)
-    {
-        money = 100;
-        return money;
-    }
-    public override void Inventary()
-    {
-        string[] invt = new string[5]; int damage;
-        invt[0] = "ржавый меч";
-        if (invt.Length > 0)
-        {
-            for (int i = 0; i < invt.Length; i++)
-            {
-                if (invt[i] == "ржавый меч")
-                {
-                    damage = 5;
-                    if (Console.ReadKey().Key == ConsoleKey.I)
-                    {
-                        string invShow = invt[i];
-                        Console.WriteLine(invShow);
-                    }
-                }
-            }
-
-            }else
-               {
-                if (invt[0] == "ржавый меч")
-                {
-                    damage = 5;
-                    if (Console.ReadKey().Key == ConsoleKey.I)
-                    {
-                        string invShow = invt[0];
-                        Console.WriteLine(invShow);
-                    }
-                }
-               }
-        }
-    }
-     
     
 
 
 
 
-class Magitian : Personage
-{
-    public override int Helth(int helth)
-    {
-        helth = 100;
-        return helth;
-    }
-    public override int Mana(int mana)
-    {
-        mana = 200;
-        return mana;
-    }
-    public override int Money(int money)
-    {
-        money = 100;
-        return money;
-    }
-    public override void Inventary()
-    {
-        string[] invt = {}; int damage;
-        invt[0] = "иссохшая волшебная палочка";
-        for (int i = 0; i < invt.Length; i++)
-        {
-            if (invt[i] == "иссохшая волшебная палочка")
-            {
-                damage = 5;
-            }
-            if (Console.ReadKey().Key == ConsoleKey.Y)
-            {
-                string invShow = invt[i];
-                Console.WriteLine(invShow);
-            }
-
-        }
-    }
-
+Console.WriteLine($"Отлично! Твоим оружием будет: ");
+var Enemy = new Enemy("Бандит", 1, 10, 100);
+Console.WriteLine($"Теперь определимся с твоим противником.Пусть это будет: {Enemy.Name}");
+Console.WriteLine("------------------------------------");
+Console.WriteLine("Готов к бою?");
+Console.WriteLine("1-Да/2-Нет");
+int answer = int.Parse(Console.ReadLine());
+Console.WriteLine("------------------------------------");
+if (answer == 1 )
+{   
+   
+    Console.WriteLine("Отлично!Да начнётся бой!");
+    BattleArena BattleArena = new (Enemy,Hero,Item);
+    BattleArena.Battle();
 }
+else if (answer == 2)
+{ 
+    Console.WriteLine("Убегаешь с поля боя?Я думал ты воин,а по итогу обычный дезертир... ");
+    Console.WriteLine("Знаешь,обычноя не даю шансов на повторный выбор.Но бизнес есть бизнес,а мне нужно шоу.Поэтому вот  тебе два варианта:");
+    Console.WriteLine("1-Уйти,2-Выйти на поле боя.Выбор варианта за тобой");
+    Console.WriteLine("Я выберу:");
+    int answer1 = int.Parse(Console.ReadLine());
+    if(answer1==1)
+    {
+        Console.WriteLine($"{Hero.Name},я думал ты умнее.У тебя был шанс стать великим бойцом,но ты выбрал бег.Проваливай чтобы мои глаза тебя не видели!");
+        Console.WriteLine("------------------------------------");
+        Console.WriteLine("Игра окончена...");
+    }
+    if(answer1==2)
+    {
+        Console.WriteLine($"Я знал , что ты умный малый {Hero.Name}");
+        Console.WriteLine("Бой начинается прямо сейчас!");
+        var BattleArena = new BattleArena(Enemy, Hero, Item);
+        BattleArena.Battle();
+
+    }
+    else
+    {
+        Console.WriteLine("БЕЗ ИМПРОВИЗАЦИИ!!");
+    }
+    
+}
+else
+{
+    Console.WriteLine("Не парень , мы так не договаривались.От сюжета не отходим!");
+}
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////
+// Дополнительное задание на 5.
+// Реализовать механизм лута предметов с противника в случае победы
+///////////////////////////////////////////////////////////////////
